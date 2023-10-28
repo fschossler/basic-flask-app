@@ -1,0 +1,5 @@
+# Default venv folder
+env
+
+# Cache
+__pycache__
