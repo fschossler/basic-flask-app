@@ -1,0 +1,51 @@
+name: Build, Test, and Deploy 👩‍💻
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build Docker image
+        run: docker build -t basic-flask-app:${{ github.sha }} .
+
+      - name: Login to Docker Hub
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
+
+      - name: Push Docker image to Docker Hub
+        run: docker push basic-flask-app:${{ github.sha }}
+
+  test:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pytest
+        run: pytest
