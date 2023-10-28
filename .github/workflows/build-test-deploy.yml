@@ -21,7 +21,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build Docker image
-        run: docker build -t basic-flask-app:${{ github.sha }} .
+        run: docker build -t fschossler/basic-flask-app:${{ github.sha }} .
 
       - name: Login to Docker Hub
         env:
@@ -30,7 +30,7 @@ jobs:
         run: docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
 
       - name: Push Docker image to Docker Hub
-        run: docker push basic-flask-app:${{ github.sha }}
+        run: docker push fschossler/basic-flask-app:${{ github.sha }}
 
   test:
     needs: build
