@@ -60,6 +60,7 @@ jobs:
       - name: Authenticate in GCP
         uses: 'google-github-actions/auth@v1'
         with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
           service_account: 'basic-flask-app@training-gcp-cloud.iam.gserviceaccount.com'
   
       - name: Deploy to Cloud Run
