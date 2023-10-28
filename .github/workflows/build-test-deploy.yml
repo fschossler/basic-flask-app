@@ -49,3 +49,25 @@ jobs:
 
       - name: Run pytest
         run: pytest
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: 'actions/checkout@v3'
+  
+      - name: Authenticate in GCP
+        uses: 'google-github-actions/auth@v1'
+        with:
+          service_account: 'basic-flask-app@training-gcp-cloud.iam.gserviceaccount.com'
+  
+      - name: Deploy to Cloud Run
+        id: 'deploy'
+        uses: 'google-github-actions/deploy-cloudrun@v1'
+        with:
+          service: 'basic-flask-app'
+          image: 'fschossler/basic-flask-app:${{ github.sha }}'
+  
+      - name: 'Use output'
+        run: 'curl "${{ steps.deploy.outputs.url }}"'
