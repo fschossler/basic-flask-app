@@ -1,2 +1,3 @@
 # basic-flask-app
-Just a basic Flask app to show the potential of GitHub Actions.
+
+Repository created just for a DevOps presentation in [He4rt Developers](https://heartdevs.com/) Brazilian Community.
