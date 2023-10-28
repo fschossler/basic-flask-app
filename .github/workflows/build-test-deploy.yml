@@ -71,4 +71,4 @@ jobs:
           image: 'fschossler/basic-flask-app:${{ github.sha }}'
   
       - name: 'Use output'
-        run: 'curl "${{ steps.deploy.outputs.url }}"'
+        run: 'curl "${{ steps.deploy.outputs.url }}/hello"'
