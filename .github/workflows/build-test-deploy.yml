@@ -6,6 +6,8 @@ on:
       - main
 
 jobs:
+
+  # Build
   build:
     runs-on: ubuntu-22.04
     steps:
@@ -24,6 +26,7 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: docker push fschossler/basic-flask-app:${{ github.sha }}
 
+  # Test
   test:
     needs: build
     runs-on: ubuntu-22.04
@@ -42,6 +45,7 @@ jobs:
       - name: Run pytest
         run: pytest
 
+  # Deploy
   deploy:
     needs: test
     runs-on: ubuntu-22.04
